@@ -1,0 +1,18 @@
+#!/bin/sh
+
+# Copyright (C) 2014 Tom Tromey <tom@tromey.com>
+
+# egdb - a simple shell script to invoke gdb in a terminal frame in
+# Emacs.  You can use it just like "gdb" and it will make a new
+# terminal frame in the current terminal, and start up your preferred
+# gdb there.  Arguments to egdb, and the current directory, are
+# transmitted to Emacs.  You can use the environment variable GDB to
+# choose the underlying gdb to invoke; if this is not set then "gdb"
+# is found in your PATH.
+
+if test -z "$GDB"; then
+    GDB=`type -p gdb`
+fi
+
+lisp="(gdb-shell-egdb \"$GDB\" \"`pwd`\" \"$@\")"
+emacsclient -t -e "$lisp"
