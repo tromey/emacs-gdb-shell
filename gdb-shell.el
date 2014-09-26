@@ -4,7 +4,7 @@
 
 ;; Author: Tom Tromey <tom@tromey.com>
 ;; Created: 17 Apr 2007
-;; Version: 0.7
+;; Version: 0.8
 ;; Keywords: tools
 
 ;; This file is not (yet) part of GNU Emacs.
@@ -66,10 +66,7 @@ This is the function to use to invoke `gdb' from
 			       ;; seem to be a reason to.
 			       " -fullname"
 			       (match-string 2 string))))
-	;; We only need this for Emacs 21, but it is simpler to
-	;; always do it.
-	(flet ((gud-gdb-massage-args (file args) args))
-	  (funcall gdb-shell-gdb string))
+	(funcall gdb-shell-gdb string)
 	(setq string "")))
      ((string-match gdb-shell-make-regexp string)
       (compilation-shell-minor-mode 1))))
@@ -87,23 +84,17 @@ This is the function to use to invoke `gdb' from
 	(setq comint-input-sender 'gdb-shell-input-sender))
     (setq comint-input-sender 'comint-simple-send)))
 
-
-;; The egdb script runs gdb in a new emacs terminal frame:
-;;
-;; #!/bin/sh
-;; lisp="(gdb-shell-egdb \"`type -p gdb`\" \"`pwd`\" \"$@\")"
-;; emacsclient -t -e $lisp
-
 ;;;###autoload
 (defun gdb-shell-egdb (executable dir args)
   "Start gdb.
 EXECUTABLE is the path to the gdb to use.
 DIR is the directory in which to run.
 ARGS are the remaining arguments to gdb.
-This is handy when run from the shell via emacsclient."
+This is handy when run from the shell via emacsclient; see the
+`egdb' script."
   (let ((gud-chdir-before-run nil)
 	(default-directory (file-name-as-directory dir)))
-    (funcall gdb-shell-egdb (concat executable " --annotate=3 " args))))
+    (funcall gdb-shell-gdb (concat executable " --annotate=3 " args))))
 
 (provide 'gdb-shell)
 
