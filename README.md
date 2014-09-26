@@ -11,7 +11,7 @@ this to work.
 `gdb` in Emacs.  The current directory and the arguments to `egdb` are
 passed to Emacs.
 
-By default `egdb' uses the `gdb` from your `PATH`.  However you can
+By default `egdb` uses the `gdb` from your `PATH`.  However you can
 change this by setting the `GDB` environment variable.
 
 `egdb` uses the variable `gdb-shell-gdb` to decide what interface to
