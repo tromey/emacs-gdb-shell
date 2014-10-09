@@ -15,4 +15,4 @@ if test -z "$GDB"; then
 fi
 
 lisp="(gdb-shell-egdb \"$GDB\" \"`pwd`\" \"$@\")"
-emacsclient -t -e "$lisp"
+emacsclient -q -t -e "$lisp"
